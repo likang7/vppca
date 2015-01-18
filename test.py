@@ -19,13 +19,21 @@ def simulate():
 		y[i] = np.random.multivariate_normal(A.dot(s[i])+mu, np.eye(P))
 	return y
 
+def simulate2():
+	N = 100
+	P = 10
+	cov = np.diag([5,4,3,2,1,1,1,1,1,1])
+	y = np.random.multivariate_normal(np.zeros(P), cov, size=(N))
+	return y
+
 def _main():
 	np.random.seed(0)
-	X = simulate()
+	X = simulate2()
 	K = 9
 
 	model = VPPCA(K = K, n_iter = 1000, verbose = False, thresh=1e-3)
 	model.fit(X)
+	print(len(model.lbs))
 	hinton(model.mean_A)
 	plt.show()
 
